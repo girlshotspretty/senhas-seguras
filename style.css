@@ -91,10 +91,20 @@ body{
 }
 
 .parametro-senha__botao{
-    
+    background-color: var(--cor-de-fundo);
+    color: var(--branco);
+    border: 2px solid var(--borda);
+    padding: 24px;
+    font-size: 24px;
+    cursor: pointer
 }
 .parametro-senha__texto{
-    
+    boder top: 2px solid var(--borda);
+    boder bottom: 2px solid var(--borda);
+    padding: 24px;
+    margin: 0px;
+    font-size: 24px;
+
 }
 
 @media screen and (min-width: 768px) {
