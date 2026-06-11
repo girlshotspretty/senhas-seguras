@@ -99,14 +99,23 @@ body{
     cursor: pointer
 }
 .parametro-senha__texto{
-    boder top: 2px solid var(--borda);
-    boder bottom: 2px solid var(--borda);
+    border-top: 2px solid var(--borda);
+    border-bottom: 2px solid var(--borda);
     padding: 24px;
     margin: 0px;
     font-size: 24px;
-
 }
 
+label{
+    font-size: 20px;
+}
+
+
+    .checkbox{
+     width: 20px;
+     height: 20px;
+     cursor: pointer;
+    }
 @media screen and (min-width: 768px) {
     .parametro-coluna__senha{
         flex-direction: row;
