@@ -123,20 +123,26 @@ label{
         width: 100%;
        
     }
-
-    .fraca{
+    .força{
         height: 30px;
+         position: relative;
+        bottom: 30px;
+    }
+    .fraca{
+        
         width: 25%;
         background-color: #e71b32;
-        position: relative;
-        bottom: 30px;
+        
     }
     .media{
         background-color: #faf408;
         width: 50%;
-          height: 30px;
-          position: relative;
-        bottom: 30px;
+          
+    }
+    .forte{
+         background-color: #00FF85;
+        width: 100%;
+         
     }
     .parametro-senha-textos{
         display: flex;
