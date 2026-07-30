@@ -1,83 +1,77 @@
-// Seleciona o elemento que mostra o número do tamanho na tela
-const numerosenha = document.querySelector('.parametro-senha__texto');
-let tamanhosenha = 5; // Começa com tamanho 5, você pode mudar para 12 se preferir
-numerosenha.textContent = tamanhosenha;
-
-// Seleciona os botões de + e -
-const botoes = document.querySelectorAll('.parametro-senha__botao');
-
-botoes[0].onclick = diminuitamanho;
-botoes[1].onclick = aumentatamanho;
-
-function diminuitamanho() {
-    if (tamanhosenha > 1) {
-        tamanhosenha--;
-    }
-    numerosenha.textContent = tamanhosenha;
-    geraSenha();
-}
-
-function aumentatamanho() {
-    if (tamanhosenha < 20) {
-        tamanhosenha++;
-    }
-    numerosenha.textContent = tamanhosenha;
-    geraSenha();
-}
-
-// Seleciona o campo onde a senha gerada será exibida
-const campoSenha = document.querySelector('#campo-senha');
-
-// Seleciona cada um dos checkboxes pelo ID do HTML
-const checkboxLetrasMaiusculas = document.querySelector('#maiusculo');
-const checkboxLetrasMinusculas = document.querySelector('#minusculo');
-const checkboxNumeros = document.querySelector('#numero');
-const checkboxSimbolos = document.querySelector('#simbolo');
-
-// Seleciona todos os checkboxes juntos para monitorar os cliques neles
-const checkboxes = document.querySelectorAll('.checkbox');
-checkboxes.forEach(checkbox => checkbox.onclick = geraSenha);
-
-// Definição dos grupos de caracteres possíveis
-const letrasMaiusculas = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const letrasMinusculas = 'abcdefghijklmnopqrstuvwxyz';
+const numeroSenha = document.querySelector('.parametro-senha__texto');
+let tamanhoSenha = 12;
+numeroSenha.textContent = tamanhoSenha;
+const letrasMaiusculas = 'ABCDEFGHIJKLMNOPQRSTUVXYWZ';
+const letrasMinusculas = 'abcdefghijklmnopqrstuvxywz';
 const numeros = '0123456789';
-const simbolos = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+const simbolos = '!@%*?';
+const botoes = document.querySelectorAll('.parametro-senha__botao');
+const campoSenha = document.querySelector('#campo-senha');
+const checkbox = document.querySelectorAll('.checkbox');
+const forcaSenha = document.querySelector('.forca');
 
-// Chama a função pela primeira vez para já exibir uma senha na tela ao carregar a página
+botoes[0].onclick = diminuiTamanho;
+botoes[1].onclick = aumentaTamanho;
+
+function diminuiTamanho() {
+    if (tamanhoSenha > 1) {
+        // tamanhoSenha = tamanhoSenha-1;
+        tamanhoSenha--;
+    }
+    numeroSenha.textContent = tamanhoSenha;
+    geraSenha();
+}
+function aumentaTamanho() {
+    if (tamanhoSenha < 20) {
+        // tamanhoSenha = tamanhoSenha+1;
+        tamanhoSenha++;
+    }
+    numeroSenha.textContent = tamanhoSenha;
+    geraSenha();
+}
+
+for (i = 0; i < checkbox.length; i++) {
+    checkbox[i].onclick = geraSenha;
+}
+
 geraSenha();
 
 function geraSenha() {
     let alfabeto = '';
-
-    // Verifica quais caixas estão marcadas (checked) e junta as opções no alfabeto
-    if (checkboxLetrasMaiusculas.checked) {
+    if (checkbox[0].checked) {
         alfabeto = alfabeto + letrasMaiusculas;
     }
-    if (checkboxLetrasMinusculas.checked) {
+    if (checkbox[1].checked) {
         alfabeto = alfabeto + letrasMinusculas;
     }
-    if (checkboxNumeros.checked) {
+    if (checkbox[2].checked) {
         alfabeto = alfabeto + numeros;
     }
-    if (checkboxSimbolos.checked) {
+    if (checkbox[3].checked) {
         alfabeto = alfabeto + simbolos;
     }
-
-    // Se o usuário desmarcar todos os checkboxes, avisa na tela e para a função
-    if (alfabeto === '') {
-        campoSenha.value = 'Selecione uma opção';
-        return; 
-    }
-
     let senha = '';
-    // Sorteia os caracteres com base no tamanho escolhido e no alfabeto gerado
-    for (let i = 0; i < tamanhosenha; i++) {
+    for (let i = 0; i < tamanhoSenha; i++) {
         let numeroAleatorio = Math.random() * alfabeto.length;
-        numeroAleatorio = Math.floor(numeroAleatorio); 
+        numeroAleatorio = Math.floor(numeroAleatorio);
         senha = senha + alfabeto[numeroAleatorio];
     }
-    
-    // Coloca a senha final dentro do input do HTML
     campoSenha.value = senha;
+    classificaSenha(alfabeto.length);
+
+}
+
+function classificaSenha(tamanhoAlfabeto){
+    let entropia = tamanhoSenha * Math.log2(tamanhoAlfabeto);
+    console.log(entropia);
+    forcaSenha.classList.remove('fraca','media','forte');
+    if (entropia > 57){
+        forcaSenha.classList.add('forte');
+    } else if (entropia > 35 && entropia < 57 ) {
+        forcaSenha.classList.add('media');
+    } else if (entropia <= 35){
+        forcaSenha.classList.add('fraca');
+    }
+    const valorEntropia = document.querySelector('.entropia');
+    valorEntropia.textContent = "Um computador pode levar até " + Math.floor(2**entropia/(100e6*60*60*24)) + " dias para descobrir essa senha.";
 }
